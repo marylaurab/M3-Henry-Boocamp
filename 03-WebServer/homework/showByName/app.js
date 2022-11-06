@@ -2,7 +2,8 @@ var fs = require("fs");
 var http = require("http");
 
 // Escribí acá tu servidor
-http.createServer(function (req, res) {
+http
+  .createServer(function (req, res) {
     //Desde el archivo (este) que escribo, es a partir hacia donde
     //envio a buscar/leer el resto de la info.
     //__dirname: ptm3/03weserver/hw/showByName
@@ -15,5 +16,6 @@ http.createServer(function (req, res) {
             res.writeHead(200, {'Content-Type': "image/jpg"})
             res.end(data)
         }
-    }) 
-}).listen(3000, /*'127.0.0.1'*/'localhost');
+    })
+  })
+  .listen(3000, /*'127.0.0.1'*/ "localhost");
