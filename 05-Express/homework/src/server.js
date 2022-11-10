@@ -93,6 +93,8 @@ server.get(`${PATH}/:author/:title`, function (req, res) {
 });
 
 server.put(PATH, function (req, res) {
+  //DUDA SOBRE EL ARRAY POSTS, AUN NO SABE DE LA MODIFICACION O SI?
+  //POR EL METODO PUT?
   let { id, title, contents } = req.body;
   if (!id || !title || !contents) {
     return res.status(STATUS_USER_ERROR).json({
@@ -101,7 +103,7 @@ server.put(PATH, function (req, res) {
     });
   }
   const toModify = posts.filter((p) => p.id === parseInt(id));
-  if (toModify.length ===1) {
+  if (toModify.length === 1) {
     toModify[0].title = title;
     toModify[0].contents = contents;
     res.json(toModify[0]);
@@ -120,8 +122,28 @@ server.put(PATH, function (req, res) {
   }
 });
 
+server.delete(PATH, function (req, res) {
+  let { id } = req.body;
+  const post = posts.find((p) => p.id === parseInt(id));
+  if (!id || !post) {
+    return res.status(STATUS_USER_ERROR).json({ error: "Mensaje de error" });
+  }
+  if (post) {
+    posts = posts.filter((p) => p.id !== parseInt(id));
+    return res.json({ success: true });
+  }
+});
 
-
-
+server.delete("/author", function (req, res) {
+  let { author } = req.body;
+  const newAuthor = posts.filter((p) => p.author === author);
+  if (!author || newAuthor.length===0) {
+    return res.status(STATUS_USER_ERROR).json({error: "No existe el autor indicado"});
+  } 
+  if(newAuthor.length>0) {
+    posts=posts.filter(p=> p.author!==author)
+    res.json(newAuthor)
+  }
+});
 
 module.exports = { posts, server };
