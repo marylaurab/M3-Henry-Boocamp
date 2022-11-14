@@ -1,33 +1,33 @@
-const fs = require('fs');
+const fs = require("fs");
 
 function promisifiedReadFile(filename) {
-	return new Promise(function (resolve, reject) {
-		fs.readFile(filename, 'utf8', function (err, data) {
-			if (err) reject(err);
-			else resolve(data);
-		});
-	});
-};
+  return new Promise(function (resolve, reject) {
+    fs.readFile(filename, "utf8", function (err, data) {
+      if (err) reject(err);
+      else resolve(data);
+    });
+  });
+}
 
 const readFilePromise = (archivo) => {
   try {
-    // throw new Error("Error");
+    //throw new Error("Error"); aca entraria al catch del try, linea 25
     promisifiedReadFile(archivo)
-      .then(file => {
+      .then((file) => {
         console.log("Log promise file: ", file);
-        //throw new Error("Error");
+        //throw new Error("Error"); aca entraria al catch interno de la linea 21
         return "Lectura exitosa";
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error asíncrono: ", err);
         return "Error en lectura";
       });
-  } catch(err) {
+  } catch (err) {
     console.log("Error sincrono: ", err);
-  }
-}
+  } 
+};
 
-readFilePromise('archivo.txt');
+readFilePromise("archivo.txt");
 
 const readFileAsync = async(archivo) => {
   try {
@@ -39,5 +39,5 @@ const readFileAsync = async(archivo) => {
   }
 }
 
-readFileAsync('archivo.txt');
-// readFileAsync('archivos.txt'); // Para simular error asíncrono en async version
+ readFileAsync('archivo.txt');
+//readFileAsync('archivos.txt'); // Para simular error asíncrono en async version
